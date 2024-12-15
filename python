@@ -1,0 +1,26 @@
+import pandas as pd
+import numpy as np
+from datetime import datetime, timedelta
+
+# Generate sample data for 5 investments
+np.random.seed(42)  # For reproducibility
+investments = ['Investment A', 'Investment B', 'Investment C', 'Investment D', 'Investment E']
+start_date = datetime(2019, 1, 1)
+end_date = datetime(2024, 1, 1)
+
+# Generate random prices for each investment over time
+date_range = pd.date_range(start_date, end_date, freq='M')  # Monthly data
+data = []
+
+for investment in investments:
+    price = 100  # Starting price for all investments
+    for date in date_range:
+        # Simulate random price movements (0% to 10% monthly change)
+        price *= np.random.uniform(0.95, 1.10)
+        data.append([investment, date, round(price, 2)])
+
+# Create DataFrame
+df = pd.DataFrame(data, columns=['Investment', 'Date', 'Price'])
+df_pivot = df.pivot(index='Date', columns='Investment', values='Price')
+df_pivot.head()
+
